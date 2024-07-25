@@ -11,7 +11,8 @@ class Pokemon:
         self.pokemon_number = randint(1,1000)
         self.img = self.get_img()
         self.name = self.get_name()
-
+        self.hp = randint(100,200)
+        self.power = randint(20,30)
         Pokemon.pokemons[pokemon_trainer] = self
 
     # Метод для получения картинки покемона через API
@@ -34,6 +35,44 @@ class Pokemon:
         else:
             return "Pikachu"
         
+    def attack(self, enemy):
+        if isinstance(enemy,Wizard):
+            shanc = randint(1,5)
+            if shanc == 1:
+                return "Покемон-волшебник применил щит в сражении"
+        if enemy.hp > self.power:
+            enemy.hp -= self.power
+            return f"""Сражение @{self.pokemon_trainer} c @{enemy.pokemon_trainer}
+Здоровье @{enemy.pokemon_trainer}{enemy.hp}"""
+        else:
+            enemy.hp = 0
+            return f"@{self.pokemon_trainer} победил @{enemy.pokemon_trainer}"
+
+   
+
+    # Метод класса для получения информации
+    def info(self):
+        return f"""Имя твоего покеомона: {self.name},
+        Здоровье твоего покемона {self.hp},
+        Сила твоего покемона {self.power}"""
+
+    # Метод класса для получения картинки покемона
+    def show_img(self):
+        return self.img
+
+class Wizard(Pokemon):
+    pass
+
+class Fighter(Pokemon):
+    def attack(self, enemy):
+        super_power = randint(5,15)
+        self.power += super_power
+        result = super().attack(enemy)
+        self.power -= super_power
+        return result + f"\nБоец применил супер-атаку силой:{super_power} "
+
+
+
     
    
 
